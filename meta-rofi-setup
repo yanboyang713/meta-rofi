@@ -1,0 +1,18 @@
+#!/bin/bash
+rm -rf /tmp/meta-rofi
+git clone https://github.com/yanboyang713/meta-rofi.git /tmp/meta-rofi
+
+ROFICONFIGDIR="/.config/rofi/"
+CONFIGDIR="/.config/"
+StringVal=$(awk -F: '{ if (match($6,"^/home")) print $6;}' /etc/passwd)
+for val in $StringVal; do
+    echo "Creating .Config Dir"
+    mkdir -p "$val$CONFIGDIR"
+
+    DIR="$val$ROFICONFIGDIR"
+    echo "Creating Rofi Config"
+    rm -rf $DIR
+    cp -r /tmp/meta-rofi/rofi $DIR
+done
+
+rm -rf /tmp/meta-rofi
